@@ -42,14 +42,19 @@ public HTTPS URL where your `pond_head.json` lives. Copy it to
 
 ## What happens next
 
-1. The lake fetches your pond from the `head_url` in your registration.
-2. It re-runs the gate (`sava_gate.py`) against freshly-fetched bytes — the same one you
-   ran. Pass → your pond is admitted as a new signed leaf of the lake head. Fail → the PR
-   reports exactly which claim did not hold.
-3. Once admitted, anyone cold-verifies your claims from the lake's own copy at
-   [acsa.ai/lake](https://acsa.ai/lake), with no dependency on your site staying up.
+You already know the outcome — you ran the gate yourself. There is **no CI check** on this
+PR, and that is deliberate: a runner asserting "admissible" would only be a trusted third
+party re-deriving what you already proved. Instead:
 
-You never push to an API. The proof travels with the bytes; the lake only pulls.
+1. The lake — the operator today, an automated signer later — pulls your pond from the
+   `head_url` and re-runs the identical gate against freshly-fetched bytes.
+2. On a pass it signs your pond in as a new leaf of the lake head and mirrors it.
+3. **Your confirmation is a signature, not a badge:** your pond appears in the signed lake
+   at [acsa.ai/lake](https://acsa.ai/lake) — pinned to `cf98ec47108b1296`, re-verifiable by
+   anyone. That is the only "✓" in the trust path.
+
+You never push to an API. The proof travels with the bytes; the lake only pulls; GitHub is
+a dumb inbox, never a verifier.
 
 > **Note:** the canonical, signed lake is served at **acsa.ai** (lake key fingerprint
 > `cf98ec47108b1296`). This repository is its public submission inbox; its own historical
