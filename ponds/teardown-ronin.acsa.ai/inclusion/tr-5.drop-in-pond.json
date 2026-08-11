@@ -1,0 +1,27 @@
+{
+  "content_id": "14ac05760486d5d501e7434f103225f130a8713d751fa9d13be877eb7e71db37",
+  "path": [
+    {
+      "side": "left",
+      "hash": "6bd4f9681c64b9def08a811b6d37e3bc3de8b91076ed9e6148d1394a3a8e0fe4"
+    },
+    {
+      "side": "right",
+      "hash": "26b9b94682b9c37179ac6c97ca215d804b1e9ef0aafb1172d87d4ac2769fffb5"
+    },
+    {
+      "side": "right",
+      "hash": "350b255e7c9ee7902067f0289cf21a5bcb610c7d6a1dbf835fb8e350b6252488"
+    },
+    {
+      "side": "right",
+      "hash": "549cb621839e9be316adfabc8561dceea26491f0677af194f3d0a3e99e5182c7"
+    },
+    {
+      "side": "right",
+      "hash": "72c95be9fa9087ff3f22b7427cb1739479939ae69f7519e3c2be6de0d5494ac1"
+    }
+  ],
+  "index": 1,
+  "member_count": 19
+}

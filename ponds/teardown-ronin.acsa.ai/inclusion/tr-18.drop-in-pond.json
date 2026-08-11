@@ -1,0 +1,24 @@
+{
+  "content_id": "f6d3499a6e867a2166fbd089c2780030af3bf6829cf47b4d068bd49eb6b43e76",
+  "path": [
+    {
+      "promoted": true
+    },
+    {
+      "side": "left",
+      "hash": "f1ad4a2f65a750d70d377ce0741f08033b321162f6c4d54d2e31b7658368b260"
+    },
+    {
+      "promoted": true
+    },
+    {
+      "promoted": true
+    },
+    {
+      "side": "left",
+      "hash": "53aebb078a8469cdba7d1fb4ce89052705a17fc22943857a087d5acea3aa3881"
+    }
+  ],
+  "index": 18,
+  "member_count": 19
+}

@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verified, not plausible — the SAVA lake</title>
+<meta name="description" content="An AI agent that answers high-stakes crypto questions shouldn't ask you to trust it — it should hand you a proof you can re-check yourself, with nothing installed. Live from the SAVA lake.">
+<style>
+  :root {
+    --bg: #eef3f3; --bg-2:#ffffff; --panel:#ffffff; --panel-2:#f4f8f8;
+    --ink:#0d1f24; --ink-2:#35505a; --ink-3:#6a838c;
+    --line:#d3e0e0; --line-2:#e6eded;
+    --gold:#b8811f; --gold-2:#9a6a12; --gold-glow:rgba(184,129,31,0.16);
+    --good:#0f7a5a; --good-bg:rgba(15,122,90,0.10);
+    --bad:#b4362b; --bad-bg:rgba(180,54,43,0.09);
+    --accent:#0e6b7a; --accent-2:#0aa;
+    --shadow:0 1px 2px rgba(13,31,36,0.05), 0 22px 48px -24px rgba(13,31,36,0.24);
+    --seal-ring:rgba(184,129,31,0.30);
+  }
+  :root:not([data-theme="light"]) { @media (prefers-color-scheme: dark) {
+    --bg:#051216; --bg-2:#07171c; --panel:#0c2027; --panel-2:#0a1b21;
+    --ink:#e9f2f2; --ink-2:#a7c0c4; --ink-3:#6f8b91;
+    --line:#163037; --line-2:#0f272d;
+    --gold:#e8c06a; --gold-2:#d9a94a; --gold-glow:rgba(232,192,106,0.15);
+    --good:#46c99a; --good-bg:rgba(70,201,154,0.12);
+    --bad:#ea7161; --bad-bg:rgba(234,113,97,0.12);
+    --accent:#54bccb; --accent-2:#54bccb;
+    --shadow:0 1px 2px rgba(0,0,0,0.4), 0 36px 70px -30px rgba(0,0,0,0.72);
+    --seal-ring:rgba(232,192,106,0.30);
+  }}
+  :root[data-theme="dark"] {
+    --bg:#051216; --bg-2:#07171c; --panel:#0c2027; --panel-2:#0a1b21;
+    --ink:#e9f2f2; --ink-2:#a7c0c4; --ink-3:#6f8b91;
+    --line:#163037; --line-2:#0f272d;
+    --gold:#e8c06a; --gold-2:#d9a94a; --gold-glow:rgba(232,192,106,0.15);
+    --good:#46c99a; --good-bg:rgba(70,201,154,0.12);
+    --bad:#ea7161; --bad-bg:rgba(234,113,97,0.12);
+    --accent:#54bccb; --accent-2:#54bccb;
+    --shadow:0 1px 2px rgba(0,0,0,0.4), 0 36px 70px -30px rgba(0,0,0,0.72);
+    --seal-ring:rgba(232,192,106,0.30);
+  }
+
+  * { box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+  body {
+    margin:0; background:var(--bg); color:var(--ink);
+    font:400 17px/1.62 ui-sans-serif,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; overflow-x:hidden;
+  }
+  .serif { font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Hoefler Text",Georgia,serif; }
+  .mono { font-family:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace; }
+  .wrap { max-width:1060px; margin:0 auto; padding:0 24px; }
+  a { color:var(--accent); }
+
+  /* ambient deep-water depth */
+  .depth { position:fixed; inset:0; z-index:-2; pointer-events:none; background:
+      radial-gradient(1200px 720px at 50% -12%, var(--gold-glow), transparent 60%),
+      radial-gradient(900px 760px at 84% 6%, color-mix(in srgb,var(--accent) 13%,transparent), transparent 60%),
+      radial-gradient(760px 620px at 12% 40%, color-mix(in srgb,var(--accent) 9%,transparent), transparent 62%); }
+  .depth::after { content:""; position:absolute; inset:-20%; background:
+      radial-gradient(500px 380px at 30% 20%, color-mix(in srgb,var(--accent) 10%,transparent), transparent 60%),
+      radial-gradient(560px 420px at 72% 66%, var(--gold-glow), transparent 62%);
+    animation:drift 26s ease-in-out infinite alternate; opacity:.7; }
+  @keyframes drift { 0%{transform:translate3d(0,0,0) scale(1)} 100%{transform:translate3d(-3%,2%,0) scale(1.08)} }
+
+  /* nav */
+  header.nav { position:sticky; top:0; z-index:20; backdrop-filter:blur(10px);
+    background:color-mix(in srgb,var(--bg) 78%,transparent); border-bottom:1px solid var(--line-2); }
+  .nav .wrap { display:flex; align-items:center; justify-content:space-between; padding:14px 24px; }
+  .brand { display:flex; align-items:baseline; gap:11px; text-decoration:none; }
+  .brand .name { font-weight:600; letter-spacing:0.34em; font-size:15px; color:var(--ink); }
+  .brand .sub { color:var(--ink-3); font-size:12px; letter-spacing:0.03em; }
+  .navlinks { display:flex; align-items:center; gap:22px; }
+  .navlinks a { color:var(--ink-2); text-decoration:none; font-size:13.5px; letter-spacing:0.02em; }
+  .navlinks a:hover { color:var(--gold); }
+  .navlinks a[aria-current="page"] { color:var(--gold); }
+  .themebtn { appearance:none; border:1px solid var(--line); background:var(--panel); color:var(--ink-2);
+    border-radius:999px; width:34px; height:34px; cursor:pointer; font-size:15px; display:grid; place-items:center;
+    transition:border-color .18s,color .18s,transform .1s; }
+  .themebtn:hover { color:var(--gold); border-color:var(--gold); }
+  .themebtn:active { transform:scale(.94); }
+  @media (max-width:680px){ .navlinks a:not(.cta){ display:none; } }
+
+  /* hero */
+  .hero { padding:66px 0 18px; }
+  .kicker { display:inline-flex; align-items:center; gap:9px; font-size:12px; letter-spacing:0.15em;
+    text-transform:uppercase; color:var(--gold-2); font-weight:600; margin-bottom:22px; }
+  .kicker .dot { width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 4px var(--gold-glow); }
+  h1.thesis { font-size:clamp(44px,8.2vw,86px); line-height:0.99; letter-spacing:-0.03em; margin:0 0 22px;
+    font-weight:600; text-wrap:balance; }
+  h1.thesis .b { color:var(--gold); font-style:italic; }
+  .lede { font-size:clamp(17px,2.4vw,21px); color:var(--ink-2); max-width:62ch; margin:0; }
+  .lede b { color:var(--ink); font-weight:600; }
+
+  /* the scene — one hard question */
+  .scene { margin:34px 0 6px; padding:30px 26px; border:1px solid var(--line); border-radius:20px;
+    background:var(--panel); box-shadow:var(--shadow); position:relative; overflow:hidden; }
+  .scene::before { content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+    background:linear-gradient(var(--gold), var(--gold-2)); opacity:.85; }
+  .scene .sceyebrow { font-size:11.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold-2);
+    font-weight:600; margin:0 0 12px; display:inline-flex; align-items:center; gap:9px; }
+  .scene .sceyebrow .warn { color:var(--bad); }
+  .scene .q { font-size:clamp(23px,3.6vw,34px); line-height:1.28; letter-spacing:-0.015em; margin:0; font-weight:600;
+    text-wrap:balance; }
+  .scene .qtail { display:block; margin-top:13px; font-size:14px; color:var(--ink-3); font-weight:400; letter-spacing:0; }
+  .scene .qtail .mono { color:var(--ink-2); }
+
+  /* cards (shared) */
+  .card { margin:0; background:var(--panel); border:1px solid var(--line); border-radius:20px;
+    box-shadow:var(--shadow); overflow:hidden; transition:border-color .3s; display:flex; flex-direction:column; }
+  .card-head { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:15px 22px;
+    border-bottom:1px solid var(--line-2); background:var(--panel-2); flex-wrap:wrap; }
+  .card-head .src { font-size:12px; color:var(--ink-3); }
+  .card-body { padding:22px 22px 22px; flex:1; }
+  .livepill { display:inline-flex; align-items:center; gap:8px; font-size:11.5px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--ink-3); font-weight:600; }
+  .livepill .live { width:7px; height:7px; border-radius:50%; background:var(--good); box-shadow:0 0 0 3px var(--good-bg);
+    animation:pulse 2.6s ease-in-out infinite; }
+  .livepill.pending .live { background:var(--ink-3); box-shadow:0 0 0 3px var(--line-2); animation:none; }
+  .livepill.pending { color:var(--ink-3); }
+  .livepill.muted .live { background:var(--ink-3); box-shadow:0 0 0 3px var(--line-2); animation:none; }
+  .livepill.muted { color:var(--ink-3); }
+  @keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+
+  /* two-panel comparison */
+  .panels { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin:8px 0 6px; align-items:stretch; }
+  @media (max-width:760px){ .panels { grid-template-columns:1fr; } }
+  .card.muted { background:color-mix(in srgb,var(--panel) 62%,transparent); border-style:dashed; }
+  .card.good { border-color:color-mix(in srgb,var(--good) 42%,var(--line)); }
+
+  .panel-tag { display:inline-block; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; font-weight:600;
+    color:var(--ink-3); border:1px solid var(--line-2); border-radius:999px; padding:3px 10px; background:var(--panel-2); }
+  .claim-label { font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-3); margin:14px 0 9px; }
+  .claim { font-size:clamp(19px,2.6vw,23px); line-height:1.4; letter-spacing:-0.01em; margin:0; }
+  .llm-ans { font-size:clamp(18px,2.4vw,21px); line-height:1.5; letter-spacing:-0.005em; margin:0; color:var(--ink-2); }
+  .llm-ans .hedge { color:var(--ink-3); font-style:italic; }
+  .pcap { margin:16px 0 0; font-size:12.5px; color:var(--ink-3); line-height:1.6; }
+  .pcap b { color:var(--ink-2); font-weight:600; }
+
+  /* verified verdict block (shared with the proof page) */
+  .verdict { display:flex; align-items:center; gap:15px; margin:16px 0 4px; padding:15px 16px; border-radius:14px;
+    background:var(--good-bg); border:1px solid color-mix(in srgb,var(--good) 30%,transparent);
+    opacity:0; transform:translateY(6px); transition:opacity .5s,transform .5s; }
+  .verdict.show { opacity:1; transform:none; }
+  .seal { flex:none; width:44px; height:44px; border-radius:50%; display:grid; place-items:center;
+    background:radial-gradient(circle at 34% 30%, color-mix(in srgb,var(--gold) 72%,#fff 12%), var(--gold-2));
+    box-shadow:0 0 0 4px var(--seal-ring), inset 0 1px 1px rgba(255,255,255,.45); color:#2a1c02; font-size:21px; }
+  .vhead { font-weight:700; font-size:16px; letter-spacing:0.01em; color:var(--good); }
+  .vsub { font-size:12.5px; color:var(--ink-2); margin-top:2px; }
+
+  /* proof rows (shared) */
+  .proof { margin-top:16px; border:1px solid var(--line-2); border-radius:12px; overflow:hidden; }
+  .prow { display:grid; grid-template-columns:118px 1fr; gap:10px; padding:10px 14px; font-size:12.5px; align-items:baseline; }
+  .prow + .prow { border-top:1px solid var(--line-2); }
+  .prow .k { color:var(--ink-3); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; }
+  .prow .val { color:var(--ink); word-break:break-all; }
+  .prow .val.ok { color:var(--good); font-weight:600; }
+  @media (max-width:520px){ .prow { grid-template-columns:1fr; gap:3px; } }
+
+  /* terminal / recipe blocks (shared) */
+  pre.term { background:var(--panel-2); border:1px solid var(--line); border-radius:13px; padding:16px 18px; overflow-x:auto;
+    font-size:12.5px; line-height:1.7; margin:16px 0 4px; box-shadow:var(--shadow); white-space:pre;
+    font-family:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace; color:var(--ink-2); }
+  pre.term .p { color:var(--gold-2); }
+  pre.term .cm { color:var(--ink-3); }
+  pre.term .ok { color:var(--good); font-weight:600; }
+  .term-cap { font-size:12.5px; color:var(--ink-3); margin:8px 0 4px; line-height:1.6; }
+  .term-cap .mono { color:var(--ink-2); }
+  .term-cap b { color:var(--ink); }
+
+  .legend { display:flex; flex-wrap:wrap; gap:9px; margin:12px 0 4px; }
+  .legchip { font-family:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace; font-size:11.5px;
+    border:1px solid var(--line); border-radius:999px; padding:6px 12px; color:var(--ink-2); background:var(--panel-2);
+    word-break:break-all; }
+  .legchip b { color:var(--ink); }
+
+  /* chips + links (shared) */
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 2px; }
+  .chip { font-size:12px; text-decoration:none; color:var(--ink-2); border:1px solid var(--line);
+    border-radius:999px; padding:5px 12px; background:var(--panel); transition:border-color .16s,color .16s;
+    display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
+  .chip:hover { border-color:var(--gold); color:var(--gold); }
+  .chip .arr { color:var(--ink-3); font-size:11px; }
+  .chip:hover .arr { color:var(--gold); }
+
+  .links { display:flex; flex-wrap:wrap; gap:14px; margin-top:6px; }
+  a.link { display:flex; align-items:center; gap:13px; text-decoration:none; color:var(--ink);
+    border:1px solid var(--line); border-radius:14px; padding:16px 18px; background:var(--panel);
+    transition:border-color .16s,transform .1s; flex:1 1 250px; }
+  a.link:hover { border-color:var(--gold); transform:translateY(-1px); }
+  a.link .ico { font-size:19px; }
+  a.link .t { display:block; font-weight:600; font-size:14.5px; }
+  a.link .d { display:block; color:var(--ink-3); font-size:12.5px; margin-top:2px; }
+  a.link .arr { margin-left:auto; color:var(--ink-3); }
+
+  .answerline { margin:14px 0 2px; font-size:13.5px; color:var(--ink-2); line-height:1.62; }
+  .answerline b { color:var(--gold-2); font-weight:600; }
+
+  /* empty / syncing state */
+  .empty { display:flex; align-items:flex-start; gap:15px; }
+  .empty .eico { flex:none; width:44px; height:44px; border-radius:50%; display:grid; place-items:center;
+    background:var(--panel-2); border:1px solid var(--line); color:var(--ink-3); font-size:22px; }
+  .empty h3 { margin:2px 0 8px; font-size:19px; letter-spacing:-0.01em; }
+  .empty p { margin:0; color:var(--ink-2); font-size:14px; line-height:1.62; }
+
+  /* sections */
+  section.band { padding:56px 0; border-top:1px solid var(--line-2); }
+  .eyebrow { font-size:12px; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-2); margin:0 0 10px; font-weight:600; }
+  h2.bh { font-size:clamp(27px,4.4vw,42px); letter-spacing:-0.02em; margin:0 0 14px; font-weight:600; text-wrap:balance; }
+  .bintro { color:var(--ink-2); max-width:72ch; font-size:15.5px; margin:0 0 26px; line-height:1.62; }
+
+  /* the stream flow: pond repo -> SAVA sync -> lake -> this answer */
+  .flowwrap { overflow-x:auto; padding:4px 2px 8px; -webkit-overflow-scrolling:touch; }
+  .flow { display:flex; align-items:stretch; gap:6px; min-width:min-content; }
+  .fnode { flex:0 0 auto; min-width:150px; border:1px solid var(--line); border-radius:14px; padding:15px 16px;
+    background:var(--panel); box-shadow:var(--shadow); display:flex; flex-direction:column; gap:5px; }
+  .fnode.accent { border-color:color-mix(in srgb,var(--accent) 45%,var(--line)); }
+  .fnode.gold { border-color:color-mix(in srgb,var(--gold) 50%,var(--line)); }
+  .fnode .fk { font-size:10.5px; letter-spacing:0.13em; text-transform:uppercase; color:var(--ink-3); font-weight:600; }
+  .fnode .ft { font-size:15px; font-weight:600; letter-spacing:-0.01em; color:var(--ink); }
+  .fnode .fd { font-size:12px; color:var(--ink-2); line-height:1.5; }
+  .fnode .fd .mono { font-size:11.5px; color:var(--ink); word-break:break-all; }
+  .farr { flex:0 0 auto; align-self:center; color:var(--gold); font-size:20px; padding:0 2px; }
+
+  footer { padding:34px 0 52px; border-top:1px solid var(--line-2); color:var(--ink-3); font-size:12.5px;
+    display:flex; flex-wrap:wrap; gap:6px 16px; justify-content:space-between; }
+  footer .mono { color:var(--ink-2); }
+  footer a { color:var(--ink-2); }
+  footer a:hover { color:var(--gold-2); }
+
+  a:focus-visible, button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+  .reveal { opacity:0; transform:translateY(14px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity:1; transform:none; }
+  @media (prefers-reduced-motion:reduce) {
+    *{ animation:none !important; }
+    .reveal{opacity:1;transform:none;transition:none;}
+    .verdict{opacity:1;transform:none;transition:none;}
+    .depth::after{animation:none;}
+  }
+</style>
+</head>
+<body>
+<div class="depth" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="name">SAVA</span><span class="sub mono">the A.C.S.A. protocol</span></a>
+    <nav class="navlinks">
+      <a href="#scene">The question</a>
+      <a href="#answer">The proof</a>
+      <a href="#stream">The stream</a>
+      <a href="#recheck" class="cta">Re-check it yourself</a>
+      <button class="themebtn" id="theme" title="Light / dark" aria-label="Toggle theme">◐</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <section class="hero">
+    <span class="kicker"><span class="dot"></span> the SAVA lake · live</span>
+    <h1 class="thesis serif">Verified,<br><span class="b">not plausible.</span></h1>
+    <p class="lede">An AI agent that answers high-stakes crypto questions shouldn't ask you to <b>trust it</b> — it should hand you a <b>proof you can re-check yourself</b>, with nothing installed. Your agent can say: <b>don't trust me — re-check the math.</b></p>
+  </section>
+
+  <section id="scene" style="scroll-margin-top:74px">
+    <div class="scene">
+      <p class="sceyebrow"><span class="warn">●</span> the question · catastrophic if wrong</p>
+      <p class="q serif">&ldquo;How many validator approvals did the Ronin bridge need to move funds?&rdquo;</p>
+      <span class="qtail">Get this wrong and you mis-model a <span class="mono">$625M</span> failure. So: do you want an answer that <em>sounds</em> right — or one you can check?</span>
+    </div>
+  </section>
+
+  <section id="answer" class="band" style="border-top:none; padding-top:34px; scroll-margin-top:74px">
+    <div class="panels">
+
+      <!-- Panel A — a plain LLM -->
+      <div class="card muted">
+        <div class="card-head">
+          <span class="livepill muted"><span class="live"></span> a plain LLM</span>
+          <span class="panel-tag">representative example</span>
+        </div>
+        <div class="card-body">
+          <div class="claim-label">The answer</div>
+          <p class="llm-ans serif">&ldquo;I <span class="hedge">believe</span> it was around <b>5 of 9</b> validators &mdash; but I <span class="hedge">can't prove that</span>, and I might be wrong or out of date.&rdquo;</p>
+          <p class="pcap"><b>No source, no proof</b> &mdash; you just have to trust it. This panel is a representative example of a typical hedged model reply, not a live model call.</p>
+        </div>
+      </div>
+
+      <!-- Panel B — an agent backed by the SAVA lake -->
+      <div class="card good" id="panelB">
+        <div class="card-head">
+          <span class="livepill" id="pb-pill"><span class="live"></span> <span id="pb-pill-t">backed by the SAVA lake</span></span>
+          <span class="src mono" id="pb-src">pond · teardown-ronin.acsa.ai</span>
+        </div>
+        <div class="card-body" id="pb-body" aria-live="polite">
+          <div class="claim-label">Loading the verified claim&hellip;</div>
+          <p class="claim serif" style="color:var(--ink-3)">Fetching <span class="mono">tr-6</span> from the same-origin lake&hellip;</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="stream" class="band reveal" style="scroll-margin-top:74px">
+    <p class="eyebrow">The stream behind it</p>
+    <h2 class="bh serif">A pond joins by proof, not permission.</h2>
+    <p class="bintro">Panel B didn't call a model. It read a file that proves itself. That file travelled a short, verifiable path: a pond publishes signed Drops, the lake pulls them and <b>grounded-verifies</b> each one before admitting it, and this page serves the admitted set verbatim &mdash; every step re-checkable from bytes alone.</p>
+
+    <div class="flowwrap">
+      <div class="flow">
+        <div class="fnode gold">
+          <span class="fk">source</span>
+          <span class="ft">pond repo</span>
+          <span class="fd">A forkable pond signs its own Drops.<br><span class="mono">acsa-pond-teardown</span></span>
+        </div>
+        <span class="farr" aria-hidden="true">→</span>
+        <div class="fnode accent">
+          <span class="fk">gate</span>
+          <span class="ft">SAVA sync</span>
+          <span class="fd">The lake <b>pulls</b> &amp; grounded-verifies. Never a push. Fails closed.</span>
+        </div>
+        <span class="farr" aria-hidden="true">→</span>
+        <div class="fnode accent">
+          <span class="fk">authority</span>
+          <span class="ft">the lake</span>
+          <span class="fd">One signed head; every pond &amp; claim a Merkle leaf of it.<br><span class="mono">acsa-lake</span></span>
+        </div>
+        <span class="farr" aria-hidden="true">→</span>
+        <div class="fnode gold">
+          <span class="fk">served here</span>
+          <span class="ft">this answer</span>
+          <span class="fd">Drop <span class="mono">tr-6</span> + inclusion proofs, same-origin. Re-derive it offline.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="links" style="margin-top:22px">
+      <a class="link" href="https://github.com/nike-getto/acsa-pond-teardown">
+        <span class="ico">🌊</span><span><span class="t">The forkable pond</span><span class="d mono">github.com/nike-getto/acsa-pond-teardown</span></span><span class="arr">→</span></a>
+      <a class="link" href="https://github.com/nike-getto/acsa-lake">
+        <span class="ico">🔗</span><span><span class="t">This lake</span><span class="d mono">github.com/nike-getto/acsa-lake</span></span><span class="arr">→</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span>SAVA · the A.C.S.A. protocol · acsa.ai</span>
+  <span class="mono">verified, not plausible · re-derive it offline · trust nothing but the math</span>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  /* ---- theme toggle (identical behaviour to the rest of the site) ---- */
+  document.getElementById("theme").addEventListener("click", () => {
+    const cur = document.documentElement.getAttribute("data-theme");
+    const next = cur === "dark" ? "light" : cur === "light" ? "dark"
+      : (matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark");
+    document.documentElement.setAttribute("data-theme", next);
+  });
+
+  /* scroll reveals */
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }), { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach((el2) => io.observe(el2));
+
+  /* ---- the target the lake will publish for this page ---- */
+  const TARGET_POND = "teardown-ronin.acsa.ai";
+  const CLAIM_ID    = "tr-6";
+  /* the lake's published Ed25519 identity key — shown in the recipe legend so
+     <LAKE_PUB> reads as a real value, not a mystery (same key the site publishes). */
+  const LAKE_PUB = "7e1d52b7392c2a9eab906cc60a70c2689e000547c47aca9f3f4ba36fc37c16bf";
+  const LAKE_FP  = "cf98ec47…";
+
+  const el = (tag, cls, text) => {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  };
+  /* encode each path component; guards against stray path characters ever
+     appearing in the data (domains / claim-ids otherwise stay literal). */
+  const seg = (s) => encodeURIComponent(String(s));
+  const nowISO = () => new Date().toISOString().replace(/\.\d+Z$/, "Z");
+
+  const body = document.getElementById("pb-body");
+  const pill = document.getElementById("pb-pill");
+  const pillT = document.getElementById("pb-pill-t");
+  const srcEl = document.getElementById("pb-src");
+
+  /* ---------- defensive same-origin JSON fetch ---------- */
+  async function getJSON(path) {
+    try {
+      const res = await fetch(path, { cache: "no-store" });
+      if (!res.ok) return null;
+      // parse defensively: a GitHub-Pages 404 fallback may return HTML, not JSON
+      return JSON.parse(await res.text());
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /* pick the target pond: exact domain match, else one that lists tr-6, else first */
+  function findPond(data) {
+    const ponds = (data && Array.isArray(data.ponds)) ? data.ponds : [];
+    if (!ponds.length) return null;
+    return ponds.find((p) => p && p.domain === TARGET_POND)
+        || ponds.find((p) => p && Array.isArray(p.claims) && p.claims.indexOf(CLAIM_ID) !== -1)
+        || ponds[0];
+  }
+
+  /* ---------- the syncing / pre-launch state (never an error) ---------- */
+  function renderPending() {
+    pill.className = "livepill pending";
+    pillT.textContent = "syncing";
+    body.textContent = "";
+    const wrap = el("div", "empty");
+    wrap.appendChild(el("div", "eico serif", "≈"));
+    const col = el("div");
+    col.appendChild(el("h3", "serif", "The lake is syncing."));
+    col.appendChild(el("p", null,
+      "The verified answer arrives shortly. When the pond is admitted, this panel will render " +
+      "the signed claim tr-6 straight from the same-origin lake — with the exact cold-verify chain you can run yourself."));
+    wrap.appendChild(col);
+    body.appendChild(wrap);
+  }
+
+  /* ---------- the populated, verified state ---------- */
+  function renderVerified(domain, drop, lakeRoot, pondRoot) {
+    const c = (drop && drop.content) ? drop.content : {};
+    const claimText = (typeof c.claim === "string" && c.claim)
+      ? c.claim
+      : "The bridge required approval from a majority of five of the nine validator nodes to move funds.";
+    const verdict = (typeof c.verdict === "string" && c.verdict) ? c.verdict : "verified";
+
+    pill.className = "livepill";
+    pillT.textContent = "verified · from the lake";
+    srcEl.textContent = "pond · " + domain;
+    body.textContent = "";
+
+    // the claim
+    body.appendChild(el("div", "claim-label", "The verified claim"));
+    body.appendChild(el("p", "claim serif", claimText));
+
+    // the verdict badge (verified)
+    const v = el("div", "verdict show");
+    v.appendChild(el("div", "seal", "✓"));
+    const vcol = el("div");
+    vcol.appendChild(el("div", "vhead", verdict.toUpperCase() + " · A.C.S.A. graded"));
+    vcol.appendChild(el("div", "vsub", "Signed by the pond, admitted by the lake, and re-derivable from its own evidence."));
+    v.appendChild(vcol);
+    body.appendChild(v);
+
+    // proof rows
+    const proof = el("div", "proof mono");
+    const row = (k, val, ok) => {
+      const r = el("div", "prow");
+      r.appendChild(el("span", "k", k));
+      r.appendChild(el("span", "val" + (ok ? " ok" : ""), (val != null && val !== "") ? String(val) : "—"));
+      proof.appendChild(r);
+    };
+    row("claim", CLAIM_ID);
+    row("verdict", verdict, true);
+    row("pond", domain);
+    row("lake_root", lakeRoot || "—");
+    row("pond_root", pondRoot || "—");
+    body.appendChild(proof);
+
+    // re-check recipe (built as DOM; values via textContent)
+    body.appendChild(el("div", "claim-label", "Re-check it yourself — nothing installed"));
+    const pre = el("pre", "term mono");
+    pre.setAttribute("id", "recheck");
+    pre.setAttribute("aria-label", "cold verification recipe");
+    pre.style.scrollMarginTop = "74px";
+    const iso = nowISO();
+    const lr = lakeRoot || "<LAKE_ROOT>";
+    const pr = pondRoot || "<POND_ROOT>";
+    const base = "ponds/" + domain;
+
+    const cmt = (t) => { pre.appendChild(el("span", "cm", t)); pre.appendChild(document.createTextNode("\n")); };
+    const cmd = (t) => { pre.appendChild(el("span", "p", "$")); pre.appendChild(document.createTextNode(" " + t + "\n")); };
+    const gap = () => pre.appendChild(document.createTextNode("\n"));
+
+    cmt("# in a local copy of this origin  (data + sava_verify.py alongside)");
+    cmt("# python3 -S disables site imports: nothing on your machine leaks in");
+    gap();
+    cmt("# 1 — the lake head is signed by the lake's published key");
+    cmd("python3 -S sava_verify.py head lake_head.json --trust <LAKE_PUB> --now " + iso);
+    gap();
+    cmt("# 2 — this pond is a leaf of the lake head's Merkle root");
+    cmd("python3 -S sava_verify.py inclusion " + base + "/inclusion/pond-in-lake.json --root " + lr);
+    gap();
+    cmt("# 3 — the Drop is a leaf of the pond head's root");
+    cmd("python3 -S sava_verify.py inclusion " + base + "/inclusion/" + CLAIM_ID + ".drop-in-pond.json --root " + pr);
+    gap();
+    cmt("# 4 — the Drop re-derives to CONFIRMED from its own shipped evidence");
+    cmd("python3 -S sava_verify.py drop " + base + "/drops/" + CLAIM_ID + ".json --sources " + base + "/sources --trust <POND_PUB>");
+    body.appendChild(pre);
+
+    // legend for the placeholders this static surface can't fill
+    const legend = el("div", "legend mono");
+    const chip = (label, val) => {
+      const c2 = el("span", "legchip");
+      c2.appendChild(el("b", null, label));
+      c2.appendChild(document.createTextNode(" " + val));
+      legend.appendChild(c2);
+    };
+    chip("<LAKE_PUB>", "the lake's Ed25519 key, fp " + LAKE_FP + " → " + LAKE_PUB);
+    chip("<POND_PUB>", "the pond's own key, from its .well-known/sava/keys");
+    body.appendChild(legend);
+
+    // one-liner
+    const line = el("p", "answerline");
+    line.appendChild(document.createTextNode("This answer comes with a proof — "));
+    line.appendChild(el("b", null, "re-derive it in 10 seconds, trust nothing but the math."));
+    body.appendChild(line);
+
+    // deep links to the exact bytes
+    const chips = el("div", "chips");
+    const mk = (href, label) => {
+      const a = el("a", "chip");
+      a.setAttribute("href", href);
+      a.appendChild(document.createTextNode(label));
+      a.appendChild(el("span", "arr", "↗"));
+      return a;
+    };
+    chips.appendChild(mk(base + "/drops/" + seg(CLAIM_ID) + ".json", "the Drop (tr-6.json)"));
+    chips.appendChild(mk(base + "/inclusion/" + seg(CLAIM_ID) + ".drop-in-pond.json", "inclusion proof"));
+    chips.appendChild(mk("sava_verify.py", "sava_verify.py"));
+    body.appendChild(chips);
+  }
+
+  /* ---------- orchestrate: populated AND missing/empty index.json ---------- */
+  async function load() {
+    const data = await getJSON("index.json");
+    const pond = findPond(data);
+    if (!pond) { renderPending(); return; }
+
+    const domain = (pond.domain && String(pond.domain)) || TARGET_POND;
+    const base = "ponds/" + domain;
+
+    // fetch the Drop + both heads in parallel (all defensive)
+    const [drop, lakeHead, pondHead] = await Promise.all([
+      getJSON(base + "/drops/" + seg(CLAIM_ID) + ".json"),
+      getJSON("lake_head.json"),
+      getJSON(base + "/pond_head.json")
+    ]);
+
+    // roots: prefer the signed heads' merkle_root, fall back to index.json
+    const lakeRoot = (lakeHead && lakeHead.content && lakeHead.content.merkle_root)
+      || (data && data.lake_root) || null;
+    const pondRoot = (pondHead && pondHead.content && pondHead.content.merkle_root)
+      || pond.pond_root || null;
+
+    // need a real claim to show the verified answer; otherwise it's still syncing
+    if (drop && drop.content && typeof drop.content.claim === "string") {
+      renderVerified(domain, drop, lakeRoot, pondRoot);
+    } else {
+      renderPending();
+    }
+  }
+
+  load();
+})();
+</script>
+
+</body>
+</html>

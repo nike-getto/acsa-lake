@@ -1,0 +1,20 @@
+{
+  "content": {
+    "format": "sava-lake/1",
+    "hash_alg": "sha256",
+    "domain": "live.acsa.ai",
+    "key_fingerprint": "9636231cc610a9c9",
+    "version": 1,
+    "expiry": "2027-08-11T00:00:00Z",
+    "prev_head": null,
+    "merkle_root": "75dcd8c8fd23fdb0de4f09d608f699addcf0c092293580cbf67e24963b71bf8a",
+    "member_count": 1
+  },
+  "seal": {
+    "key_fingerprint": "9636231cc610a9c9",
+    "signer": null,
+    "signature": "B2MM4aw1UIYIwiMKmMMOzl/+jaRwAZGJ3OeDWLq8sluf2q7Fw0jh7CEwSeOKt+O5CGoqM1jc1lH1YOyj2i3xBA=="
+  },
+  "witnesses": [],
+  "rotation": null
+}

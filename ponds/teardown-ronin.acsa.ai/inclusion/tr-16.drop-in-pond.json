@@ -1,0 +1,27 @@
+{
+  "content_id": "baa2bad5c9eb01b503220003237970b632771da8d6bafc02c6dbd2a383f84c15",
+  "path": [
+    {
+      "side": "right",
+      "hash": "d5cc1de917a7c332cc6e3d7931bac72b27d9c3cfe8462f3c1a0558a7202e6062"
+    },
+    {
+      "side": "right",
+      "hash": "d0e2cac5aaae4991459c6aa83c6e6a780ca9e1c0c0ff86ba81bb229e659a6d0e"
+    },
+    {
+      "side": "left",
+      "hash": "dab98da549eefcafa47e741e690cd9a70424b8716f9bfa2a72ee367d67b2cd0d"
+    },
+    {
+      "side": "left",
+      "hash": "40624c63ff026ce84a2dd6e09da35961243a7e566660d39e1ed807ba08570eb3"
+    },
+    {
+      "side": "right",
+      "hash": "72c95be9fa9087ff3f22b7427cb1739479939ae69f7519e3c2be6de0d5494ac1"
+    }
+  ],
+  "index": 12,
+  "member_count": 19
+}

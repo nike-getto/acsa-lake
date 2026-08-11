@@ -1,0 +1,44 @@
+# Ronin Bridge Exploit — Primary and Secondary Source Excerpts
+
+[source: https://web.archive.org/web/20230518085104/https://blog.roninchain.com/p/back-to-building-ronin-security-breach | retrieved 2026-08-09 | full-doc sha256 1ee33e74cdbd2d62c070c5f3a6cc839c6adaf85d525105822c2972b6ab0d2071 | primary]
+# Sky Mavis / Ronin Network official incident postmortem, "Back to Building: Ronin Security Breach Postmortem", published 2022-04-27 at blog.roninchain.com. Current canonical URL https://roninchain.com/blog/posts/back-to-building-ronin-security-breach-6513cc78a5edc1001b03c364 returned HTTP 404 at retrieval (2026-08-09); fetched via web.archive.org snapshot captured 2023-05-18 of the original blog.roninchain.com post.
+"On March 23rd, Sky Mavis’s Ronin validator nodes and Axie DAO validator nodes were compromised resulting in 173,600 Ethereum and 25.5M USDC drained from the Ronin bridge."
+"The hack occurred on March 23rd 2022, and was discovered on March 29th by the Sky Mavis team."
+"4 Sky Mavis validators and 1 Axie DAO — in order to forge fake withdrawals."
+"but the attacker found a backdoor through our gas-free RPC node, which they abused to get the signature for the Axie DAO validator."
+"This traces back to November 2021 when Sky Mavis requested help from the Axie DAO to distribute free transactions due to an immense user load."
+"This was discontinued in December 2021, but the allowlist access was not revoked."
+"We now know that the FBI has attributed North Korea-based Lazarus Group, highly skilled hackers, to the Ronin Validator Security Breach."
+"The US Government, specifically the Treasury Department, has sanctioned the address that received the stolen funds."
+
+[source: https://ofac.treasury.gov/recent-actions/20220414 | retrieved 2026-08-09 | full-doc sha256 762c10a4ae7a38e1ca5c83ce0e523e2c3c3372e7fcca505dd822f6181cf385a9 | primary]
+# US Department of the Treasury, Office of Foreign Assets Control, SDN List update, release date 2022-04-14 ("North Korea Designation Update").
+"Potonggang District, Pyongyang, Korea, North; Digital Currency Address - ETH 0x098B716B8Aaf21512996dC57EB0615e2383E2f96"
+
+[source: https://www.coindesk.com/policy/2022/04/14/us-officials-tie-north-korean-hacker-group-to-axies-ronin-exploit | retrieved 2026-08-09 | full-doc sha256 b2295ba55e9994c464bd801de7796c96b790f1b3ce88b2b3601acabbaf17930e | secondary]
+# CoinDesk, "US Officials Tie North Korea's 'Lazarus' Hackers to $625M Crypto Theft", published 2022-04-14.
+"Ronin Network said in a blog post that the FBI had linked Lazarus with the validator breach and that the Treasury Department sanctioned the funds."
+"losing 173,600 ETH and 25.5 million USDC, worth $625 million at the time."
+"the department had worked with the FBI to investigate the Lazarus Group and Advance Persistent Threat 38 (another North Korean entity believed to use malicious programming to steal funds)."
+
+[source: https://www.elliptic.co/insights/540-million-stolen-from-the-ronin-defi-bridge/ | retrieved 2026-08-09 | full-doc sha256 f2f0b6c999decc814b2ca8dc73ee57f66c56fa11f04145e37a06ce2b5cf3b199 | secondary]
+# Elliptic, "North Korea's Lazarus Group identified as exploiters behind $540 million Ronin bridge heist", published 2022-03-29 (updated 2022-04-14).
+"The total value of the stolen cryptoassets at the time of the theft was $540 million."
+"The post mortem claims that “all evidence points to this attack being socially engineered, rather than a technical flaw”."
+
+[source: https://www.halborn.com/blog/post/explained-the-ronin-hack-march-2022 | retrieved 2026-08-09 | full-doc sha256 9266494c70b734c1badfaa26ceddc9665e2426e7650d75bd07fc1ca83b6a52d5 | secondary]
+# Halborn, "Explained: The Ronin Hack (March 2022)", published 2022-03-30.
+"The Ronin Network uses a set of nine validator nodes to approve transactions on the bridge, and a deposit or withdrawal requires approval by a majority of five of these nodes."
+"the project team was notified by a user that they couldn’t withdraw about 5k ETH from the project’s bridge."
+
+[source: https://www.merklescience.com/blog/hack-track-analysis-of-ronin-network-exploit | retrieved 2026-08-09 | full-doc sha256 246b18d1237e1eef8d4da5411202600e3cdd8ee24c6ff0982ba2a38ab11951f3 | secondary]
+# Merkle Science, "Hack Track: Analysis of Ronin Network Exploit", published 2022-03-31 (updated 2022-04-18).
+"On April 14, 2022, the U.S. Department of Treasury’s Office tied the North Korea-based hacking group, Lazarus, to the Ronin Network exploit."
+"the attack was conducted on the Ronin bridge’s pool of funds."
+
+[source: https://cointelegraph.com/news/sky-mavis-recovers-5-7m-ronin-bridge-hack | retrieved 2026-08-09 | full-doc sha256 ac1f71c44670fd23df5080ff6ff87c1ae5559a8c58b1a887414ca9a324c0562f | secondary]
+# Cointelegraph, "Sky Mavis recovers $5.7M from Ronin Bridge hack", published 2024-06-07.
+"Sky Mavis, the company behind the popular play-to-earn (P2E) game Axie Infinity, has announced that, with the assistance of Norwegian authorities, it has recovered $5.7 million from the notorious Ronin Bridge incident of 2022."
+"The blockchain gaming firm publicly thanked the Norwegian government and the United States Federal Bureau of Investigation for tracking the funds and recovering the assets."
+"law enforcement has frozen an additional $40 million in digital assets."
+"Sky Mavis raised $150 million to reimburse affected users in April 2022 through a funding round led by crypto exchange Binance."

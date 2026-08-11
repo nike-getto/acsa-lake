@@ -1,0 +1,9 @@
+{
+  "lake_domain": "live.acsa.ai",
+  "ponds": [
+    {
+      "domain": "teardown-ronin.acsa.ai",
+      "key_fingerprint": "bd4f1f39e64e33ab"
+    }
+  ]
+}

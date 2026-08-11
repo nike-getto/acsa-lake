@@ -1,0 +1,25 @@
+{
+  "content_id": "e95f0106ac8cf2a44386c9034c26fb17dc9602728953e74a11427380dc3b61d9",
+  "path": [
+    {
+      "side": "left",
+      "hash": "6e37a447a7e67cbdbac5d7a3576bae97dbe1e3e3479360fb081b754f9cd54cbf"
+    },
+    {
+      "side": "right",
+      "hash": "dfd33ce159809a80b552ece5103de6a82273433e605a53cb4de57d92c45dee90"
+    },
+    {
+      "promoted": true
+    },
+    {
+      "promoted": true
+    },
+    {
+      "side": "left",
+      "hash": "53aebb078a8469cdba7d1fb4ce89052705a17fc22943857a087d5acea3aa3881"
+    }
+  ],
+  "index": 17,
+  "member_count": 19
+}

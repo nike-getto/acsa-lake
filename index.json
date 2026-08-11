@@ -1,0 +1,33 @@
+{
+  "lake_domain": "live.acsa.ai",
+  "lake_root": "75dcd8c8fd23fdb0de4f09d608f699addcf0c092293580cbf67e24963b71bf8a",
+  "lake_head_cid": "a7313d0fba21188bdc7b1a9a15a65da5e55b7821a4a12c8193c8c8034994c594",
+  "ponds": [
+    {
+      "domain": "teardown-ronin.acsa.ai",
+      "pond_head_cid": "b83a0d97748f285af4c61a69fed10355b0e45246f3dd9a8f223f7602557cf98b",
+      "pond_root": "84cadaf3248b2dda932ef2ca9ed47be83fd649b86dce3f090918ac56c23c77ac",
+      "claims": [
+        "tr-1",
+        "tr-10",
+        "tr-11",
+        "tr-12",
+        "tr-13",
+        "tr-14",
+        "tr-15",
+        "tr-16",
+        "tr-17",
+        "tr-18",
+        "tr-19",
+        "tr-2",
+        "tr-3",
+        "tr-4",
+        "tr-5",
+        "tr-6",
+        "tr-7",
+        "tr-8",
+        "tr-9"
+      ]
+    }
+  ]
+}
