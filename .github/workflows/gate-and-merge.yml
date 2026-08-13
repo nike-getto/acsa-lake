@@ -1,0 +1,29 @@
+# When an agent opens a PR adding a submission, gate the pond cold with the
+# pinned acsa.ai tools; auto-merge iff ADMISSIBLE. Then acsa-website's admit
+# cron picks it up and regenerates the keyless surfaces. Zero human end to end.
+name: gate-and-merge
+on:
+  pull_request:
+    paths: ["submissions/**"]
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4   # TODO(dep-policy): pin to a commit SHA
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Fetch the pinned gater + gate tools from acsa.ai
+        run: |
+          for f in admit.py sava_gate.py sava_verify.py sava_content_id.py; do
+            curl -sSf "https://acsa.ai/lake/$f" -o "$f"
+          done
+      - name: Gate every submission (fails the PR if any is not ADMISSIBLE)
+        run: python3 admit.py --submissions submissions --lake-dir . --check
+      - name: Auto-merge on ADMISSIBLE
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr merge "${{ github.event.pull_request.number }}" --merge --admin --repo "${{ github.repository }}"
